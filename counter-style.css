@@ -1,0 +1,310 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@200;300;400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Chango&display=swap');
+
+* {
+    font-size:24px;
+    font-family: Roboto Slab, sans-serif;
+}
+
+
+body {
+    background-color: #325a64;
+    background-image: url(assets/background0.png);
+    margin: 0;
+}
+
+#counter-wrapper {
+    display: flex;
+    justify-content: center;
+    background-image: url(assets/background1.png);
+    background-size: 100% 50%;
+    background-position: center;
+    background-repeat: repeat-y;
+    height: 100vh;
+    width: 25rem;
+    margin: 0 auto;
+    text-align: center;
+    min-height: 600px;
+}
+
+#counter {
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    margin: 0 auto;
+    min-height: 600px;
+}
+
+#round {
+    flex-shrink: 0;
+    height: 4rem;
+    width: 30rem;
+    background-image: url(assets/round-back1.png);
+    background-size: 100% 100%;
+    margin: -0.1rem 0 0.2rem;
+    background-repeat: no-repeat;
+}
+
+#round h1 {
+    font-size: 1.5rem;
+    margin: 0;
+    padding-top: 1rem;
+    color: #ffc170;
+}
+
+#energy, #cards {
+    position: relative;
+    margin: 0 auto;
+    font-size: 36px;
+    color: white;
+    /* text-stroke simulated with shadows */
+    text-shadow:
+        -2px -2px 0 #000,
+        0   -2px 0 #000,
+        2px -2px 0 #000,
+        2px  0   0 #000,
+        2px  2px 0 #000,
+        0    2px 0 #000,
+        -2px  2px 0 #000,
+        -2px  0   0 #000;
+}
+
+#energy {
+    width: 5rem;
+    height: 5rem;
+    z-index: 0;
+}
+
+#cards {
+    width: 4rem;
+    height: 4rem;
+    margin-bottom: 0.3rem;
+    z-index: 0;
+}
+
+#energy .maxEnergy,
+#energy .separator {
+    font-size: 1em;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
+
+#energy .separator {
+    margin-right: 1em;
+    margin-bottom: 0.5em;
+    transform: rotate(15deg);
+}
+
+#energy .currentEnergy {
+    font-size: 2.2em;
+    text-align: right;
+    margin-left: -2rem;
+
+}
+
+#cards .currentCards {
+    font-size: 1.2em;
+    position: absolute;
+    left: 50%;
+    bottom: -1rem;
+    transform: translate(-50%, -50%);
+    margin: 0 auto;
+}
+
+.buttons,
+.cardButtons {
+    margin: 0.5rem 0 0.3rem;
+}
+
+button {
+    position: relative;
+    color: white;
+    background-color: rgb(190, 126, 90);
+    border-color: rgb(91, 49, 23);
+    border-width: 0.2rem;
+    border-radius: 0.5rem;
+    border-style: solid;/* -moz-box-shadow:    inset 0 0 10px #000000; */
+    box-shadow: inset;
+    -webkit-box-shadow: inset 0 -0.15rem 0 rgb(175, 91, 65);
+    transition: all 200ms ease-out;
+}
+
+button span {
+    display: inline-block;
+    font-family: Montserrat;
+    font-weight: lighter;
+    color: inherit;
+    line-height: 2rem;
+    padding: 0 10px;
+    margin: auto;
+    min-width: 0.7rem;
+}
+button {
+    margin-bottom: 0.5rem;
+    margin-left: 0.5rem;
+}
+
+button:hover {
+    background-color: rgba(91, 49, 23, 0.1);
+    transition: all 200ms ease-out;
+}
+
+button:active {
+    background-color: rgba(0, 0, 0, 0.3);
+    box-shadow: inset;
+    -webkit-box-shadow: inset 0 -0.15rem 0 rgba(91, 49, 23, 0.3);
+}
+
+#animation {
+    visibility: hidden;
+    margin-left: -1rem;
+    position: absolute;
+    top:0;
+    height: 100%;
+}
+
+#animation span {
+    font-size: 1.5rem;
+    text-shadow: 0px 10px 5px rgba(0, 0, 0, 0.2);
+    position: absolute;
+    font-family: Chango;
+    height: 1.5rem;
+    width: 2rem;
+    border-radius: 0.15rem;
+    margin-left: -.5rem;
+}
+
+#animation.plus {
+    visibility: visible;
+    color: lime;
+    animation: energyAdd 350ms ease-out;
+}
+
+#animation.minus {
+    visibility: visible;
+    color: red;
+    animation: energyRemove 350ms ease-out;
+}
+
+#animation.next {
+    visibility: visible;
+    margin-top: 1.3rem;
+    color: gray;
+    animation: nextRound 350ms ease-out;
+}
+
+@keyframes energyAdd {
+    0% {
+        opacity: 0;
+        transform: translateY(2rem);
+    }
+    10% {
+        opacity: 0.8;
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(1rem);
+    }
+}
+
+@keyframes energyRemove {
+    0% {
+        opacity: 0;
+        transform: translateY(1rem);
+    }
+    10% {
+        opacity: 0.8;
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(2rem);
+    }
+}
+
+@keyframes nextRound {
+    0% {
+        opacity: 0;
+        transform: translateX(-1rem);
+    }
+    10% {
+        opacity: 0.8;
+    }
+    100% {
+        opacity: 0;
+        transform: translateX(0);
+    }
+}
+
+#energy:before {
+    width: 5rem;
+    height: 5rem;
+    background-image: url(assets/energy1.svg);
+    background-repeat: no-repeat;
+    background-size: 100%;
+    background-position: center;
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
+
+#cards:before {
+    width: 4rem;
+    height: 4rem;
+    background-image: url(assets/cards1.webp);
+    background-repeat: no-repeat;
+    background-size: 80%;
+    background-position: center;
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
+
+#energy.resetAnimation:before,
+#energy.resetAnimation > .currentEnergy {
+    animation: counterReset 1500ms cubic-bezier(0.6, 0.1, 0, 1);
+}
+
+@keyframes counterReset {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(1800deg);
+        transform: rotate(1800deg);
+    }
+}
+
+
+@media only screen and (max-width: 720px) {
+    #counter-wrapper {
+        width: 100%;
+        height: 100vh;
+        overflow: auto;
+    }
+    #counter {
+        width: 100%;
+        margin: 0;
+    }
+    #counter > * {
+        margin: 0.5rem auto;
+    }
+    #counter .buttons,
+    #counter .cardButtons {
+        margin: .5rem auto 0;
+        width: 80%;
+    }
+    #round {
+        background-size: 40rem 100%;
+        background-position: center;
+        width: 100%;
+        overflow: hidden;
+        margin: -0.1rem 0 0.2rem;
+    }
+}
