@@ -7,7 +7,8 @@ function EnergyCounter() {
     });
     const [animationState, setAnimationState] = React.useState({
         energyChange: false,
-        counterReset: false
+        counterReset: false,
+        cardsChange: false
     });
 
     function add() {
@@ -37,27 +38,21 @@ function EnergyCounter() {
         }
     }
     function nextRound() {
-        if (counter.energy < 9)
+        let energy = counter.energy < 9 ? counter.energy + 2 : 10;
+        let cards = counter.cards < 13 ? counter.cards + 3 : 15;
             setCounter({
                 round: counter.round + 1,
-                energy: counter.energy + 2,
-                cards: counter.cards + 3,
-                lastAction: 'next'
-            });
-        else
-            setCounter({
-                round: counter.round + 1,
-                energy: 10,
-                cards: counter.cards + 3,
+                energy: energy,
+                cards: cards,
                 lastAction: 'next'
             });
         setAnimationState({
             ...animationState,
             energyChange: true
-        })
+        });
     }
     function reset() {
-        if (!(counter.energy == 3 && counter.round ==1 && counter.cards ==6)) {
+        if (!(counter.energy == 3 && counter.round == 1 && counter.cards == 6)) {
             setCounter({
                 energy: 3,
                 round: 1,
@@ -71,17 +66,30 @@ function EnergyCounter() {
         }
     }
     function addCard() {
-        setCounter({
-            ...counter,
-            cards: counter.cards + 1
-        });
-    }
-    function subtractCard() {
-        if (counter.cards > 0)
+        if (counter.cards < 15) {
             setCounter({
                 ...counter,
-                cards: counter.cards - 1
+                cards: counter.cards + 1,
+                lastAction: 'plus'
             });
+            setAnimationState({
+                ...animationState,
+                cardsChange: true
+            })
+        }
+    }
+    function subtractCard() {
+        if (counter.cards > 0) {
+            setCounter({
+                ...counter,
+                cards: counter.cards - 1,
+                lastAction: 'minus'
+            });
+            setAnimationState({
+                ...animationState,
+                cardsChange: true
+            })
+        }
     }
 
     function animationMsg() {
@@ -111,8 +119,11 @@ function EnergyCounter() {
                 <button onClick={nextRound}><span>Next Round</span></button>
                 <button onClick={reset}><span>Reset</span></button>
             </div>
-            <div id="cards">
+            <div id="cards" onAnimationEnd={() => setAnimationState({ cardsChange: false })}>
                 <span class="currentCards">{counter.cards}</span>
+                <div id="animation" className={`${animationState.cardsChange ? counter.lastAction : ''}`}>
+                    <span>{animationMsg()}</span>
+                </div>
             </div>
             <div class="cardButtons">
                 <button onClick={subtractCard}><span>-</span></button>
