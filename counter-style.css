@@ -115,7 +115,10 @@ body {
 
 .buttons,
 .cardButtons {
-    margin: 0.5rem 0 0.3rem;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 0.5rem 5rem 0.3rem;
 }
 
 button {
@@ -129,6 +132,21 @@ button {
     box-shadow: inset;
     -webkit-box-shadow: inset 0 -0.15rem 0 rgb(175, 91, 65);
     transition: all 200ms ease-out;
+    margin-bottom: 0.5rem;
+    margin-left: 0.5rem;
+    min-height: 2.5rem;
+}
+
+button.disabled {
+    color: rgba(255, 255, 255, 0.5);
+    background-color: rgba(0, 0, 0, 0.3);
+    box-shadow: inset;
+    -webkit-box-shadow: inset 0 -0.15rem 0 rgba(91, 49, 23, 0.3);
+}
+.material-icons {
+    font-size: 1.5rem;
+    line-height: 2rem;
+    padding: 0 .1rem;
 }
 
 button span {
@@ -141,12 +159,8 @@ button span {
     margin: auto;
     min-width: 0.7rem;
 }
-button {
-    margin-bottom: 0.5rem;
-    margin-left: 0.5rem;
-}
 
-button:hover {
+button:hover:not(.disabled) {
     background-color: rgba(91, 49, 23, 0.1);
     transition: all 200ms ease-out;
 }
@@ -195,6 +209,13 @@ button:active {
     animation: nextRound 350ms ease-out;
 }
 
+#animation.prev {
+    visibility: visible;
+    margin-top: 1.3rem;
+    color: gray;
+    animation: prevRound 350ms ease-out;
+}
+
 @keyframes energyAdd {
     0% {
         opacity: 0;
@@ -234,6 +255,20 @@ button:active {
     100% {
         opacity: 0;
         transform: translateX(0);
+    }
+}
+
+@keyframes prevRound {
+    0% {
+        opacity: 0;
+        transform: translateX(7rem);
+    }
+    10% {
+        opacity: 0.8;
+    }
+    100% {
+        opacity: 0;
+        transform: translateX(6rem);
     }
 }
 
@@ -298,7 +333,7 @@ button:active {
     #counter .buttons,
     #counter .cardButtons {
         margin: .5rem auto 0;
-        width: 80%;
+        width: 75%;
     }
     #round {
         background-size: 40rem 100%;

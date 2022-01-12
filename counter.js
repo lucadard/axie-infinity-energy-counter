@@ -5,6 +5,12 @@ function EnergyCounter() {
         cards: 6,
         lastAction: ''
     });
+    const [counterHistory, setCounterHistory] = React.useState({
+        energy: 3,
+        round: 1,
+        cards: 6,
+        used: true
+    });
     const [animationState, setAnimationState] = React.useState({
         energyChange: false,
         counterReset: false,
@@ -38,21 +44,52 @@ function EnergyCounter() {
         }
     }
     function nextRound() {
+        setCounterHistory({
+            round: counter.round,
+            energy: counter.energy,
+            cards: counter.cards,
+            used: false
+        });
         let energy = counter.energy < 9 ? counter.energy + 2 : 10;
         let cards = counter.cards < 13 ? counter.cards + 3 : 15;
-            setCounter({
-                round: counter.round + 1,
-                energy: energy,
-                cards: cards,
-                lastAction: 'next'
-            });
+        setCounter({
+            round: counter.round + 1,
+            energy: energy,
+            cards: cards,
+            lastAction: 'next'
+        });
         setAnimationState({
             ...animationState,
             energyChange: true
         });
     }
+
+    function prevRound() {
+        if (!counterHistory.used) {
+            setCounter({
+                round: counterHistory.round,
+                energy: counterHistory.energy,
+                cards: counterHistory.cards,
+                lastAction: 'prev'
+            });
+            setCounterHistory({
+                ...counterHistory,
+                used: true
+            })
+            setAnimationState({
+                ...animationState,
+                energyChange: true
+            });
+        }
+    }
     function reset() {
         if (!(counter.energy == 3 && counter.round == 1 && counter.cards == 6)) {
+            setCounterHistory({
+                round: counter.round,
+                energy: counter.energy,
+                cards: counter.cards,
+                used: false
+            });
             setCounter({
                 energy: 3,
                 round: 1,
@@ -99,6 +136,8 @@ function EnergyCounter() {
             return '-';
         if (counter.lastAction === 'next')
             return '>>';
+        if (counter.lastAction === 'prev')
+            return '<<';
     }
     return (
         <div id="counter">
@@ -118,6 +157,7 @@ function EnergyCounter() {
                 <button onClick={add}><span>+</span></button>
                 <button onClick={nextRound}><span>Next Round</span></button>
                 <button onClick={reset}><span>Reset</span></button>
+                <button onClick={prevRound} className={`${counterHistory.used ? 'disabled' : ''}`}><span class="material-icons">history</span></button>
             </div>
             <div id="cards" onAnimationEnd={() => setAnimationState({ cardsChange: false })}>
                 <span class="currentCards">{counter.cards}</span>
